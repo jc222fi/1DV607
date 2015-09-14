@@ -5836,9 +5836,9 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 1111,
+									"left": 1108,
 									"top": 774,
-									"width": 72.6298828125,
+									"width": 79.85986328125,
 									"height": 13,
 									"autoResize": false,
 									"alpha": -0.2758059480282147,
@@ -5848,7 +5848,7 @@
 									},
 									"edgePosition": 1,
 									"underline": false,
-									"text": "+Manged-by",
+									"text": "+Managed-by",
 									"horizontalAlignment": 2,
 									"verticalAlignment": 5
 								},
@@ -11719,7 +11719,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFPrBXAlF55rbo="
 							},
-							"name": "Manged-by",
+							"name": "Managed-by",
 							"end1": {
 								"_type": "UMLAssociationEnd",
 								"_id": "AAAAAAFPrEwSPCjMfOw=",
