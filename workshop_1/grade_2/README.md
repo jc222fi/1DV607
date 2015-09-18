@@ -20,4 +20,4 @@ Also the "User" class is gone, and "Secretary" is now a specialization of "Membe
 However, about the payment, our understanding of the requirements for
 grade 2 was that there should be nothing related to payments in 
 the model, that was a part of the task for grade 3. So we are uncertain
-if we are wrong or if they are wrong. We left it as it was.
+if we are wrong or if they are wrong. We left it as it was...
