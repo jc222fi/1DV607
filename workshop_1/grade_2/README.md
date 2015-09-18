@@ -10,7 +10,7 @@ read the same book.
 
 
 #####Regarding the review from Mattias Wikström, Anna Iosif, Jasmin Bejtovic#####
-This peer review we found quite helpful, we realized that our model
+We found this peer review quite helpful, we realized that our model
 may have been a bit software oriented. We have corrected at least one thing,
 the authentication process is gone since it may not belong in the domain model. 
 We still have our MemberRegister left though since the BoatClub needs to
