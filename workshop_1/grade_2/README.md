@@ -1,3 +1,1 @@
-Repository for workshops made in the course 1DV607 (Object Oriented Analysis and Design).
-
-Nothing interesting, please ignore.
+Our final result is in boatclub_grade_2_after_reviews.pdf
