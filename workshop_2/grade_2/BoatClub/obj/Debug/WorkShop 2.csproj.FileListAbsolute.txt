@@ -1,0 +1,15 @@
+D:\Visual Studio Projects\WorkShop 2\WorkShop 2\bin\Debug\WorkShop 2.exe.config
+D:\Visual Studio Projects\WorkShop 2\WorkShop 2\obj\Debug\WorkShop 2.csprojResolveAssemblyReference.cache
+D:\Visual Studio Projects\WorkShop 2\WorkShop 2\bin\Debug\WorkShop 2.exe
+D:\Visual Studio Projects\WorkShop 2\WorkShop 2\bin\Debug\WorkShop 2.pdb
+D:\Visual Studio Projects\WorkShop 2\WorkShop 2\obj\Debug\WorkShop 2.exe
+D:\Visual Studio Projects\WorkShop 2\WorkShop 2\obj\Debug\WorkShop 2.pdb
+C:\Users\Daniel\Desktop\WorkShop 2\WorkShop 2\bin\Debug\WorkShop 2.exe.config
+C:\Users\Daniel\Desktop\WorkShop 2\WorkShop 2\obj\Debug\WorkShop 2.exe
+C:\Users\Daniel\Desktop\WorkShop 2\WorkShop 2\obj\Debug\WorkShop 2.pdb
+C:\Users\Daniel\Desktop\WorkShop 2\WorkShop 2\obj\Debug\WorkShop 2.csprojResolveAssemblyReference.cache
+C:\Users\Daniel\Desktop\WorkShop 2\WorkShop 2\bin\Debug\WorkShop 2.exe
+C:\Users\Daniel\Desktop\WorkShop 2\WorkShop 2\bin\Debug\WorkShop 2.pdb
+C:\Users\Daniel\Documents\GitHub\1DV607\workshop_2\WorkShop 2\bin\Debug\WorkShop 2.exe.config
+C:\Users\Daniel\Documents\GitHub\1DV607\workshop_2\WorkShop 2\obj\Debug\WorkShop 2.exe
+C:\Users\Daniel\Documents\GitHub\1DV607\workshop_2\WorkShop 2\obj\Debug\WorkShop 2.pdb

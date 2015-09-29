@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfMember xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Member>
+    <Id>0</Id>
+    <Name>Daniel Nilsson</Name>
+    <PersonalNumber>930501-0036</PersonalNumber>
+    <ArrayOfBoat>
+      <Boat>
+        <Id>0</Id>
+        <Model>Sailorboat</Model>
+        <Length>2.50</Length>
+      </Boat>
+    </ArrayOfBoat>
+  </Member>
+  <Member>
+    <Id>1</Id>
+    <Name>Daniel Blixt</Name>
+    <PersonalNumber>910501-0036</PersonalNumber>
+    <ArrayOfBoat>
+      <Boat>
+        <Id>0</Id>
+        <Model>Sailorboat</Model>
+        <Length>2.50</Length>
+      </Boat>
+    </ArrayOfBoat>
+  </Member>
+</ArrayOfMember>
