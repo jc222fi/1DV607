@@ -136,85 +136,57 @@ namespace BoatClub.View
 
         public void ShowMemberList(IEnumerable<Model.Member> list, Boolean simple)
         {
+            System.Console.Clear();
             System.Console.WriteLine();
-            System.Console.WriteLine();
-
-            System.Console.WriteLine("{0,-5} {1,-26} {2,-16}", "ID", "Name", "Personal Number");
-            System.Console.WriteLine("------------------------------------------------");
 
             if (simple)
-            {            
+            {
+                System.Console.WriteLine("{0,-5} {1,-26} {2,-16}", "ID", "Name", "Personal Number");
+                System.Console.WriteLine("------------------------------------------------");
+
                 foreach (Model.Member m in list)
                 {
-
                     System.Console.WriteLine("{0,-5} {1,-26} {2,-16}", m.ID, m.Name, m.PersonalNumber);
-
-
-
-                    /*
-                    System.Console.WriteLine("Name: {0}", m.Name);
-                    System.Console.WriteLine("Personal number: {0}", m.PersonalNumber);
-                    System.Console.WriteLine("ID: {0}", m.ID);
-                    if (!simple)
-                    {
-                        foreach (Model.Boat b in m.Boats)
-                        {
-                            System.Console.WriteLine("Boat ID: {0}", b.ID);
-                            System.Console.WriteLine("Boat Type: {0}", b.Model);
-                            System.Console.WriteLine("Boat Length: {0}", b.Length);
-                        }
-                    }
-
-        */
                 }
             }
             else
             {
                 foreach(Model.Member m in list)
                 {
-                    System.Console.WriteLine("{0,-5} {1,-26} {2,-16}", m.ID, m.Name, m.PersonalNumber);
-
+                    System.Console.WriteLine("---------------------------------");
                     System.Console.WriteLine();
-                    System.Console.WriteLine("Owned Boats:");
-                    System.Console.WriteLine("{0,5} Boats:", "");
-                    
-                    foreach (Model.Boat b in m.Boats)
+
+                    System.Console.WriteLine("{0,-16}{1}", "ID:", m.ID);
+                    System.Console.WriteLine("{0,-16}{1}", "Name:", m.Name);
+                    System.Console.WriteLine("{0,-16}{1}", "Personal Nr:", m.PersonalNumber);
+                    System.Console.WriteLine("{0,-16}{1}", "Boats:", m.Boats.Count == 0 ? "None" : "");
+  
+                    if(m.Boats.Count > 0)
                     {
-                        System.Console.WriteLine("{0,5} {1,-5} {2, -16} {3, -8}", "", b.ID, b.Model, b.Length);
-                        //System.Console.WriteLine("Boat ID: {0}", "", b.ID);
-                        //System.Console.WriteLine("Boat Type: {0}", b.Model);
-                        //System.Console.WriteLine("Boat Length: {0}", b.Length);
+                        System.Console.WriteLine();
+
+                        System.Console.WriteLine("{0,4}{1,-5} {2,-12} {3,-6}", "", "ID", "Model", "Length");
+                        System.Console.WriteLine("    ----- ------------ ------");
+
+                        foreach (Model.Boat b in m.Boats)
+                        {
+                            System.Console.WriteLine("{0,4}{1,-5} {2,-12} {3}m", "", b.ID, b.Model,
+                                b.Length.ToString("0.00"));
+                        }
                     }
-
+                   
                     System.Console.WriteLine();
-
                 }
-
-
             }
-
-
-
-           
-            System.Console.WriteLine();
-            System.Console.WriteLine("Press space to continue....");
+              
         }
 
         public void Wait()
         {
-            Boolean stop = false;
-            while(!stop)
-            {
-                char c = System.Console.ReadKey().KeyChar;
-                if(c == ' ')
-                {
-                    stop = true;
-                }
-
-            }
+            System.Console.WriteLine();
+            System.Console.WriteLine("Press enter to continue...");
+            System.Console.ReadLine();
         }
-
-
 
     }
 }

@@ -24,20 +24,7 @@ namespace BoatClub.Controller
                     break;
 
                 case View.Console.MainMenuEvent.ShowMemberListMenu:
-                    view.ShowMemberListMenu();
-                    View.Console.MemberListMenuEvent e2;
-                    e2 = view.GetMemberListMenuSelection();
-                    switch (e2)
-                    {
-                        case View.Console.MemberListMenuEvent.SimpleList:
-                            view.ShowMemberList(register.GetMemberList(), true);
-                            view.Wait();
-                            break;
-                        case View.Console.MemberListMenuEvent.CompleteList:
-                            view.ShowMemberList(register.GetMemberList(), false);
-                            view.Wait();
-                            break;
-                    }
+                    HandleEventShowListMenu(view, register);
                     break;
                 case View.Console.MainMenuEvent.Quit:
                     return false;
@@ -45,6 +32,7 @@ namespace BoatClub.Controller
             
             return true;
         }
+
 
         public void HandleEventNewMember(View.Console view, Model.MemberRegister register)
         {
@@ -55,10 +43,30 @@ namespace BoatClub.Controller
             m.PersonalNumber = view.InputMemberPersonalNumber();
             register.AddMember(m);
             register.Save();
-
         }
 
+        public void HandleEventShowListMenu(View.Console view, Model.MemberRegister register)
+        {
+            view.ShowMemberListMenu();
+            View.Console.MemberListMenuEvent e2;
+            e2 = view.GetMemberListMenuSelection();
+            switch (e2)
+            {
+                case View.Console.MemberListMenuEvent.SimpleList:
+                    view.ShowMemberList(register.GetMemberList(), true);
+                    view.Wait();
 
+                    HandleEventShowListMenu(view, register);
+                    break;
+                case View.Console.MemberListMenuEvent.CompleteList:
+                    view.ShowMemberList(register.GetMemberList(), false);
+                    view.Wait();
+
+                    HandleEventShowListMenu(view, register);
+                    break;
+            }
+        }
 
     }
+
 }
