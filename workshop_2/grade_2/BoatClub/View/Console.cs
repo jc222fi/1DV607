@@ -33,7 +33,8 @@ namespace BoatClub.View
             None,
             EditName,
             EditPernonalNr,
-            EditBoats
+            EditBoats,
+            Abort
         }
 
         public enum EditBoatsMenuEvent
@@ -41,7 +42,8 @@ namespace BoatClub.View
             None,
             AddBoat,
             EditBoat,
-            DeleteBoat
+            DeleteBoat, 
+            Abort
         }
 
 
@@ -65,12 +67,29 @@ namespace BoatClub.View
         public void ShowMemberListMenu()
         {
             System.Console.Clear();
-            System.Console.WriteLine("---------Menu---------");
+            System.Console.WriteLine("---------Member List Menu---------");
             System.Console.WriteLine("{0}. Show Simple Member List", (int)MemberListMenuEvent.SimpleList);
             System.Console.WriteLine("{0}. Show Complete Member List", (int)MemberListMenuEvent.CompleteList);
             System.Console.WriteLine("{0}. Abort", (int)MemberListMenuEvent.Abort);
+        }
+        public void ShowEditBoatMenu()
+        {
+            System.Console.Clear();
+            System.Console.WriteLine("---------Edit Boat Menu---------");
+            System.Console.WriteLine("{0}. Add Boat", (int)EditBoatsMenuEvent.AddBoat);
+            System.Console.WriteLine("{0}. Edit Boat", (int)EditBoatsMenuEvent.EditBoat);
+            System.Console.WriteLine("{0}. Delete Boat", (int)EditBoatsMenuEvent.DeleteBoat);
+            System.Console.WriteLine("{0}. Abort", (int)EditBoatsMenuEvent.Abort);
+        }
 
-            //System.Console.WriteLine("Choose and option, a: Add member q: Quit s: Show list of members");
+        public void ShowEditMemberMenu()
+        {
+            System.Console.Clear();
+            System.Console.WriteLine("---------Edit Member Menu---------");
+            System.Console.WriteLine("{0}. Edit Name", (int)EditMemberMenuEvent.EditName);
+            System.Console.WriteLine("{0}. Edit Personal Number", (int)EditMemberMenuEvent.EditPernonalNr);
+            System.Console.WriteLine("{0}. Edit Boats", (int)EditMemberMenuEvent.EditBoats);
+            System.Console.WriteLine("{0}. Abort", (int)EditMemberMenuEvent.Abort);
         }
 
         public MainMenuEvent GetMainMenuSelection()
@@ -101,6 +120,33 @@ namespace BoatClub.View
             }
         }
 
+        public EditMemberMenuEvent GetEditMemberMenuSelection()
+        {
+            int option = System.Console.ReadKey().KeyChar - '0';
+
+            if (option > (int)EditMemberMenuEvent.None && option <= (int)EditMemberMenuEvent.Abort)
+            {
+                return (EditMemberMenuEvent)option;
+            }
+            else
+            {
+                return EditMemberMenuEvent.None;
+            }
+        }
+
+        public EditBoatsMenuEvent GetEditBoatsMenuSelection()
+        {
+            int option = System.Console.ReadKey().KeyChar - '0';
+
+            if (option > (int)EditBoatsMenuEvent.None && option <= (int)EditBoatsMenuEvent.Abort)
+            {
+                return (EditBoatsMenuEvent)option;
+            }
+            else
+            {
+                return EditBoatsMenuEvent.None;
+            }
+        }
 
         public void ShowAddMemberInfo()
         {
@@ -175,9 +221,11 @@ namespace BoatClub.View
                     System.Console.WriteLine("{0,-5} {1,-26} {2,-16}", m.ID, m.Name, m.PersonalNumber);
 
                     System.Console.WriteLine();
-                    System.Console.WriteLine("Owned Boats:");
-                    System.Console.WriteLine("{0,5} Boats:", "");
-                    
+                    System.Console.WriteLine("      ------------Owned Boats------------");
+
+                    System.Console.WriteLine("{0,5} {1,-5} {2, -16} {3, -8}", "", "ID", "MODEL", "LENGTH");
+                    System.Console.WriteLine("      -----------------------------------");
+
                     foreach (Model.Boat b in m.Boats)
                     {
                         System.Console.WriteLine("{0,5} {1,-5} {2, -16} {3, -8}", "", b.ID, b.Model, b.Length);

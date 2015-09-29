@@ -39,6 +39,24 @@ namespace BoatClub.Controller
                             break;
                     }
                     break;
+                case View.Console.MainMenuEvent.ShowEditMemberMenu:
+                    view.ShowEditMemberMenu();
+                    View.Console.EditMemberMenuEvent e3;
+                    e3 = view.GetEditMemberMenuSelection();
+                    switch (e3)
+                    {
+                        case View.Console.EditMemberMenuEvent.EditName:
+                            //Edit name
+                            break;
+                        case View.Console.EditMemberMenuEvent.EditPernonalNr:
+                            //Edit pnr
+                            break;
+                        case View.Console.EditMemberMenuEvent.EditBoats:
+                            HandleEventEditBoats(view, register);
+                            view.Wait(); 
+                            break;
+                    }
+                    break;
                 case View.Console.MainMenuEvent.Quit:
                     return false;
             }
@@ -55,10 +73,33 @@ namespace BoatClub.Controller
             m.PersonalNumber = view.InputMemberPersonalNumber();
             register.AddMember(m);
             register.Save();
-
         }
 
+        public void HandleEventEditBoats(View.Console view, Model.MemberRegister register)
+        {
+            view.ShowEditBoatMenu();
+            View.Console.EditBoatsMenuEvent e3;
+            e3 = view.GetEditBoatsMenuSelection();
+            switch (e3)
+            {
+                case View.Console.EditBoatsMenuEvent.AddBoat:
+                    //Add boat
+                    break;
+                case View.Console.EditBoatsMenuEvent.DeleteBoat:
+                    //Delete Boat
+                    break;
+                case View.Console.EditBoatsMenuEvent.EditBoat:
+                    //Edit boat
+                    break;
+                case View.Console.EditBoatsMenuEvent.Abort:
+                    //Abort
+                    break;
+                
+            }
+            
+            }
 
+        }
 
     }
 }
