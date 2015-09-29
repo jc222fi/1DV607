@@ -44,7 +44,7 @@ namespace BoatClub.Model
             {
                 if (value.Length == 0)
                 {
-                    throw new Exception("Name was empty.");
+                    throw new ArgumentException("Name was empty.");
                 }
                 _name = value;
             }

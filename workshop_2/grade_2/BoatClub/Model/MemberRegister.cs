@@ -76,7 +76,7 @@ namespace BoatClub.Model
                 }
             }
 
-            return null;
+            throw new ArgumentException("No member exists with id " + memberId);
         }
 
         public void UpdateMember(int memberId, String name, String pnr)

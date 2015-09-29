@@ -33,7 +33,7 @@ namespace BoatClub.View
             None,
             EditName,
             EditPersonalNr,
-            EditBoats,
+            ShowEditBoatsMenu,
             Abort
         }
 
@@ -45,6 +45,14 @@ namespace BoatClub.View
             DeleteBoat,
             Abort
         }
+
+
+        public enum Error
+        {
+            InvalidInput,
+            NoMemberWithId
+        }
+
 
 
 
@@ -72,6 +80,7 @@ namespace BoatClub.View
             System.Console.WriteLine("{0}. Show Complete Member List", (int)MemberListMenuEvent.CompleteList);
             System.Console.WriteLine("{0}. Abort", (int)MemberListMenuEvent.Abort);
         }
+
         public void ShowEditBoatMenu()
         {
             System.Console.Clear();
@@ -88,9 +97,11 @@ namespace BoatClub.View
             System.Console.WriteLine("---------Edit Member Menu---------");
             System.Console.WriteLine("{0}. Edit Name", (int)EditMemberMenuEvent.EditName);
             System.Console.WriteLine("{0}. Edit Personal Number", (int)EditMemberMenuEvent.EditPersonalNr);
-            System.Console.WriteLine("{0}. Edit Boats", (int)EditMemberMenuEvent.EditBoats);
+            System.Console.WriteLine("{0}. Edit Boats", (int)EditMemberMenuEvent.ShowEditBoatsMenu);
             System.Console.WriteLine("{0}. Abort", (int)EditMemberMenuEvent.Abort);
         }
+
+ 
 
         public MainMenuEvent GetMainMenuSelection()
         {
@@ -155,6 +166,21 @@ namespace BoatClub.View
             System.Console.WriteLine("----Add New Member----");
         }
 
+        public void ShowEditMemberNameInfo()
+        {
+            System.Console.WriteLine();
+            System.Console.WriteLine();
+            System.Console.WriteLine("------Edit Name------");
+        }
+
+        public void ShowEditMemberPersonalNrInfo()
+        {
+            System.Console.WriteLine();
+            System.Console.WriteLine();
+            System.Console.WriteLine("------Edit Personal Number-----");
+        }
+
+
         public String InputMemberName()
         {
             System.Console.Write("Name: ");
@@ -178,15 +204,35 @@ namespace BoatClub.View
             System.Console.Write("Enter boat lenght: ");
             return double.Parse(System.Console.ReadLine()); //Unhandled
         }
+
         public int InputMemberID()
         {
+            System.Console.WriteLine();
+            System.Console.WriteLine();
             System.Console.Write("Enter Member ID (0 to abort): ");
-            return int.Parse(System.Console.ReadLine()); //Unhandled
+
+            int id;
+            if (Int32.TryParse(System.Console.ReadLine(), out id))
+            {
+                return id;
+            }
+
+            return -1;
         }
+
         public int InputBoatID()
         {
+            System.Console.WriteLine();
+            System.Console.WriteLine();
             System.Console.Write("Enter Boat ID: ");
-            return int.Parse(System.Console.ReadLine()); //Unhandled
+
+            int id;
+            if(Int32.TryParse(System.Console.ReadLine(), out id))
+            {
+                return id;
+            }
+
+            return -1;
         }
 
         public void ShowMemberList(IEnumerable<Model.Member> list, Boolean simple)

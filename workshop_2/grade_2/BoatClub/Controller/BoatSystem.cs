@@ -27,35 +27,14 @@ namespace BoatClub.Controller
                     HandleEventShowListMenu(view, register);
                     break;
                 case View.Console.MainMenuEvent.ShowEditMemberMenu:
-                    view.ShowEditMemberMenu();
-                    View.Console.EditMemberMenuEvent e3;
-                    e3 = view.GetEditMemberMenuSelection();
-                    switch (e3)
-                    {
-                        case View.Console.EditMemberMenuEvent.EditName:
-                            int id = view.InputMemberID();
-                            if (id != 0)
-                            {
-                                Model.Member m = register.GetMember(id);
-                                m.Name = view.InputMemberName();
-                            }
-                            break;
-                        case View.Console.EditMemberMenuEvent.EditPersonalNr:
-                            int id2 = view.InputMemberID();
-                            if (id2 != 0)
-                            {
-                                Model.Member m2 = register.GetMember(id2);
-                                m2.PersonalNumber = view.InputMemberPersonalNumber();
-                            }
-                            break;
-                        case View.Console.EditMemberMenuEvent.EditBoats:
-                            HandleEventEditBoats(view, register);
-                            view.Wait();
-                            break;
-                    }
-                    register.Save();
-                    break;
+                    int id = view.InputMemberID();
+                    if (id == 0)
+                        break;
 
+                    Model.Member m = register.GetMember(id);
+
+                    HandleEventShowEditMemberMenu(m, view, register);
+                    break;
                 case View.Console.MainMenuEvent.ShowMemberInfo:
                     int id3 = view.InputMemberID();
                     if (id3 != 0)
@@ -68,7 +47,7 @@ namespace BoatClub.Controller
                     int id4 = view.InputMemberID();
                     if (id4 != 0)
                     {
-                          register.DeleteMember(register.GetMember(id4));
+                        register.DeleteMember(register.GetMember(id4));
                     }
                     break;
 
@@ -113,7 +92,36 @@ namespace BoatClub.Controller
 
         }
 
-        public void HandleEventEditBoats(View.Console view, Model.MemberRegister register)
+        public void HandleEventShowEditMemberMenu(Model.Member member, View.Console view, Model.MemberRegister register)
+        {
+            view.ShowEditMemberMenu();
+
+            View.Console.EditMemberMenuEvent e3;
+            e3 = view.GetEditMemberMenuSelection();
+            switch (e3)
+            {
+                case View.Console.EditMemberMenuEvent.EditName:
+                    view.ShowEditMemberNameInfo();
+                    member.Name = view.InputMemberName();
+                    register.Save();
+                    HandleEventShowEditMemberMenu(member, view, register);
+                    break;
+                case View.Console.EditMemberMenuEvent.EditPersonalNr:
+                    view.ShowEditMemberPersonalNrInfo();
+                    member.PersonalNumber = view.InputMemberPersonalNumber();
+                    register.Save();
+                    HandleEventShowEditMemberMenu(member, view, register);
+                    break;
+                case View.Console.EditMemberMenuEvent.ShowEditBoatsMenu:
+                    HandleEventShowEditBoatsMenu(view, register);
+                    register.Save();
+                    HandleEventShowEditMemberMenu(member, view, register);
+                    break;
+            }
+        }
+
+
+        public void HandleEventShowEditBoatsMenu(View.Console view, Model.MemberRegister register)
         {
             view.ShowEditBoatMenu();
             View.Console.EditBoatsMenuEvent e3;
