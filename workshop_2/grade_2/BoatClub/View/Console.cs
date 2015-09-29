@@ -48,7 +48,7 @@ namespace BoatClub.View
 
         public void ShowMainMenu()
         {
-            //System.Console.Clear();
+            System.Console.Clear();
             System.Console.WriteLine("Welcome to the boatclub");
             System.Console.WriteLine();
             System.Console.WriteLine("---------Menu---------");
@@ -100,29 +100,36 @@ namespace BoatClub.View
                 return MemberListMenuEvent.None;
             }
         }
-        public String InputMemberName()
-        {
 
-            System.Console.WriteLine("Enter name: ");
+
+        public void ShowAddMemberInfo()
+        {
+            System.Console.WriteLine();
+            System.Console.WriteLine("----Add New Member----");
+        }
+
+        public String InputMemberName()
+        {           
+            System.Console.Write("Name: ");
             return System.Console.ReadLine();
         }
 
         public String InputMemberPersonalNumber()
         {
-            System.Console.WriteLine("Enter personalnumber: ");
+            System.Console.Write("Personal Number: ");
             return System.Console.ReadLine();
         }
 
 
         public String InputBoatType()
         {
-            System.Console.WriteLine("Enter boat type: ");
+            System.Console.Write("Enter boat type: ");
             return System.Console.ReadLine();
         }
 
         public double InputBoatLenght()
         {
-            System.Console.WriteLine("Enter boat lenght: ");
+            System.Console.Write("Enter boat lenght: ");
             return double.Parse(System.Console.ReadLine());
         }
 

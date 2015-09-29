@@ -48,6 +48,8 @@ namespace BoatClub.Controller
 
         public void HandleEventNewMember(View.Console view, Model.MemberRegister register)
         {
+            view.ShowAddMemberInfo();
+
             Model.Member m = new Model.Member(0);
             m.Name = view.InputMemberName();
             m.PersonalNumber = view.InputMemberPersonalNumber();
