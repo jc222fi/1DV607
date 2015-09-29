@@ -108,8 +108,6 @@ namespace BoatClub.Controller
                 
             }
             
-            }
-
         }
 
     }
