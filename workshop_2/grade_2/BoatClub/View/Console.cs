@@ -24,7 +24,8 @@ namespace BoatClub.View
         {
             None,
             SimpleList,
-            CompleteList
+            CompleteList,
+            Abort
         }
 
         public enum EditMemberMenuEvent
@@ -61,7 +62,17 @@ namespace BoatClub.View
             //System.Console.WriteLine("Choose and option, a: Add member q: Quit s: Show list of members");
         }
 
-       
+        public void ShowMemberListMenu()
+        {
+            System.Console.Clear();
+            System.Console.WriteLine("---------Menu---------");
+            System.Console.WriteLine("{0}. Show Simple Member List", (int)MemberListMenuEvent.SimpleList);
+            System.Console.WriteLine("{0}. Show Complete Member List", (int)MemberListMenuEvent.CompleteList);
+            System.Console.WriteLine("{0}. Abort", (int)MemberListMenuEvent.Abort);
+
+            //System.Console.WriteLine("Choose and option, a: Add member q: Quit s: Show list of members");
+        }
+
         public MainMenuEvent GetMainMenuSelection()
         {
             int option = System.Console.ReadKey().KeyChar - '0';
@@ -76,6 +87,63 @@ namespace BoatClub.View
             }
         }
 
+        public MemberListMenuEvent GetMemberListMenuSelection()
+        {
+            int option = System.Console.ReadKey().KeyChar - '0';
+
+            if (option > (int)MemberListMenuEvent.None && option <= (int)MemberListMenuEvent.Abort)
+            {
+                return (MemberListMenuEvent)option;
+            }
+            else
+            {
+                return MemberListMenuEvent.None;
+            }
+        }
+        public String InputMemberName()
+        {
+
+            System.Console.WriteLine("Enter name: ");
+            return System.Console.ReadLine();
+        }
+
+        public String InputMemberPersonalNumber()
+        {
+            System.Console.WriteLine("Enter personalnumber: ");
+            return System.Console.ReadLine();
+        }
+
+
+        public String InputBoatType()
+        {
+            System.Console.WriteLine("Enter boat type: ");
+            return System.Console.ReadLine();
+        }
+
+        public double InputBoatLenght()
+        {
+            System.Console.WriteLine("Enter boat lenght: ");
+            return double.Parse(System.Console.ReadLine());
+        }
+
+        public void ShowMemberList(IEnumerable<Model.Member> list, Boolean simple)
+        {
+            foreach (Model.Member m in list)
+            {
+                System.Console.WriteLine("Name: {0}", m.Name);
+                System.Console.WriteLine("Personal number: {0}", m.PersonalNumber);
+                System.Console.WriteLine("ID: {0}", m.ID);
+                if (!simple)
+                {
+                    foreach (Model.Boat b in m.Boats)
+                    {
+                        System.Console.WriteLine("Boat ID: {0}", b.ID);
+                        System.Console.WriteLine("Boat Type: {0}", b.Model);
+                        System.Console.WriteLine("Boat Length: {0}", b.Length);
+                    }
+                }
+            }
+        }
 
 
 

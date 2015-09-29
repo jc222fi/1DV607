@@ -20,61 +20,40 @@ namespace BoatClub.Controller
             switch(e)
             {
                 case View.Console.MainMenuEvent.AddNewMember:
-                    Model.Member m = new Model.Member(0);
-                    m.Name = "Daniel Nilsson";
-                    m.PersonalNumber = "930501-0036";
-                    register.AddMember(m);
-
-                    Model.Member m2 = new Model.Member(1);
-                    m2.Name = "Daniel Blixt";
-                    m2.PersonalNumber = "910501-0036";
-                    register.AddMember(m2);
-
-
-                    register.Save();
+                    HandleEventNewMember(view, register);
                     break;
 
-
+                case View.Console.MainMenuEvent.ShowMemberListMenu:
+                    view.ShowMemberListMenu();
+                    View.Console.MemberListMenuEvent e2;
+                    e2 = view.GetMemberListMenuSelection();
+                    switch (e2)
+                    {
+                        case View.Console.MemberListMenuEvent.SimpleList:
+                            view.ShowMemberList(register.GetMemberList(), true);
+                            break;
+                        case View.Console.MemberListMenuEvent.CompleteList:
+                            view.ShowMemberList(register.GetMemberList(), false);
+                            break;
+                    }
+                    break;
                 case View.Console.MainMenuEvent.Quit:
                     return false;
             }
-
-
-
-
-            /*
-            if (e == View.Console.Event.Quit)
-            {
-                return false;
-            }
-            if (e == View.Console.Event.Add)
-            {
-                view.addMember(a_reg);
-
-            }
-            if(e == View.Console.Event.Show)
-            {
-                view.displayMemberList(a_reg);
-            }
-            if(e == View.Console.Event.Delete)
-            {
-                view.deleteMember(a_reg);
-            }
-            if(e == View.Console.Event.Look)
-            {
-                view.lookAtMember(a_reg);
-            }
-            if(e == View.Console.Event.Update)
-            {
-                view.updateMember(a_reg);
-            }
-
-
-               */
+            
             return true;
         }
 
 
+        public void HandleEventNewMember(View.Console view, Model.MemberRegister register)
+        {
+            Model.Member m = new Model.Member(0);
+            m.Name = view.InputMemberName();
+            m.PersonalNumber = view.InputMemberPersonalNumber();
+            register.AddMember(m);
+            register.Save();
+
+        }
 
 
 

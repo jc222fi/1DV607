@@ -18,9 +18,6 @@ namespace BoatClub.Model
         {
             _memberList = new List<Member>();
             Load();
-
-
-            System.Console.WriteLine(_memberList.Count);
         }
 
         public void Load()
@@ -59,11 +56,6 @@ namespace BoatClub.Model
         public void AddMember(Member newMember)
         {
             _memberList.Add(newMember);
-        }
-
-        public List<Member> GetMemberList()
-        {
-            return _memberList;
         }
 
         public void DeleteMember(int memberId)
@@ -123,6 +115,11 @@ namespace BoatClub.Model
             }
 
             return max + 1;
+        }
+
+        public IEnumerable<Member> GetMemberList()
+        {
+            return (IEnumerable<Member>)_memberList.AsEnumerable();
         }
 
     }
