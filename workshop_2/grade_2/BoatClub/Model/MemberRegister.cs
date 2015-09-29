@@ -86,8 +86,6 @@ namespace BoatClub.Model
             //memb.SetPersonalNumber(pnr);
         }
 
-
-
         public int GetNextMemberId()
         {
             int max = 0;

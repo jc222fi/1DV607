@@ -12,6 +12,14 @@ namespace BoatClub.Model
     [Serializable]
     public class Boat : IXmlSerializable
     {
+        public enum BoatModel
+        {
+            Sailboat,
+            Motorsailor,
+            KayakCanoe,
+            Other
+        }
+
         private int _id;
         private double _length;
         private string _model;
@@ -74,7 +82,7 @@ namespace BoatClub.Model
 
         public void WriteXml(XmlWriter writer)
         {
-            writer.WriteElementString("Id", 0.ToString());
+            writer.WriteElementString("Id", _id.ToString());
             writer.WriteElementString("Model", _model);
             writer.WriteElementString("Length", _length
                 .ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));

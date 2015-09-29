@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
@@ -59,8 +60,14 @@ namespace BoatClub.Model
 
             set
             {
-                // todo, perform validation
-                _personalNumber = value;
+                Match m = Regex.Match(value, @"(\d{6})-?(\d{4})");
+               
+                if(m.Success)
+                {
+                    _personalNumber = m.Groups[1] + "-" + m.Groups[2];
+                }
+                else 
+                    throw new ArgumentException("Invalid format of personal number.");
             }
         }
 
@@ -77,28 +84,29 @@ namespace BoatClub.Model
             _boats.Add(boat);
         }
 
-        public void DeleteBoat(int boatid)
+        public void DeleteBoat(int boatId)
         {
             foreach (Boat b in _boats)
             {
-                if (b.ID == boatid)
+                if (b.ID == boatId)
                 {
                     Boats.Remove(b);
-                    break;
+                    return;
                 }
             }
+
+            throw new ArgumentException("No boat with id=" + boatId);
         }
-        public Boat GetBoat(int boatid)
+
+        public Boat GetBoat(int boatId)
         {
             foreach (Boat b in _boats)
             {
-                if (b.ID == boatid)
-                {
+                if (b.ID == boatId)
                     return b;
-                    break;
-                }
             }
-            return null;
+
+            throw new ArgumentException("No boat with id=" + boatId);
         }
 
 
