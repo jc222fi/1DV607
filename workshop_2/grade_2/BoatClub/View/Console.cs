@@ -143,6 +143,21 @@ namespace BoatClub.View
                     }
                 }
             }
+            System.Console.WriteLine("Press space to continue....");
+        }
+
+        public void Wait()
+        {
+            Boolean stop = false;
+            while(!stop)
+            {
+                char c = System.Console.ReadKey().KeyChar;
+                if(c == ' ')
+                {
+                    stop = true;
+                }
+
+            }
         }
 
 

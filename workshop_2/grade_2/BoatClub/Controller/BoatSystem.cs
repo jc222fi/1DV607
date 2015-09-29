@@ -31,9 +31,11 @@ namespace BoatClub.Controller
                     {
                         case View.Console.MemberListMenuEvent.SimpleList:
                             view.ShowMemberList(register.GetMemberList(), true);
+                            view.Wait();
                             break;
                         case View.Console.MemberListMenuEvent.CompleteList:
                             view.ShowMemberList(register.GetMemberList(), false);
+                            view.Wait();
                             break;
                     }
                     break;
@@ -43,7 +45,6 @@ namespace BoatClub.Controller
             
             return true;
         }
-
 
         public void HandleEventNewMember(View.Console view, Model.MemberRegister register)
         {
