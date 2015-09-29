@@ -47,6 +47,10 @@ namespace BoatClub.Model
 
             set
             {
+                if (value < 0)
+                {
+                    throw new ArgumentException("Length cannot be negative.");
+                }                  
                 _length = value;
             }
         }
