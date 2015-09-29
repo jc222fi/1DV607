@@ -23,6 +23,11 @@ namespace BoatClub.Model
             {
                 return _id;
             }
+
+            set
+            {
+                _id = value;
+            }
         }
 
         public double Length
@@ -63,7 +68,7 @@ namespace BoatClub.Model
             reader.ReadStartElement();
             _id = reader.ReadElementContentAsInt("Id", reader.NamespaceURI);
             _model = reader.ReadElementContentAsString("Model", reader.NamespaceURI);
-            _length = reader.ReadElementContentAsDouble("Length", reader.NamespaceURI);            
+            _length = reader.ReadElementContentAsDouble("Length", reader.NamespaceURI);
             reader.ReadEndElement();
         }
 
@@ -72,7 +77,7 @@ namespace BoatClub.Model
             writer.WriteElementString("Id", 0.ToString());
             writer.WriteElementString("Model", _model);
             writer.WriteElementString("Length", _length
-                .ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));    
+                .ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
         }
     }
 }

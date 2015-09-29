@@ -22,11 +22,6 @@ namespace BoatClub.Model
         {
             _id = id;
             _boats = new List<Boat>();
-
-            Boat b = new Boat();
-            b.Length = 2.5;
-            b.Model = "Sailorboat";
-            _boats.Add(b);
         }
 
 
@@ -76,7 +71,38 @@ namespace BoatClub.Model
                 return _boats;
             }
         }
-  
+
+        public void AddBoat(Boat boat)
+        {
+            _boats.Add(boat);
+        }
+
+        public void DeleteBoat(int boatid)
+        {
+            foreach (Boat b in _boats)
+            {
+                if (b.ID == boatid)
+                {
+                    Boats.Remove(b);
+                    break;
+                }
+            }
+        }
+        public Boat GetBoat(int boatid)
+        {
+            foreach (Boat b in _boats)
+            {
+                if (b.ID == boatid)
+                {
+                    return b;
+                    break;
+                }
+            }
+            return null;
+        }
+
+
+
         public XmlSchema GetSchema()
         {
             return null;
@@ -102,7 +128,7 @@ namespace BoatClub.Model
             writer.WriteElementString("Id", _id.ToString());
             writer.WriteElementString("Name", _name);
             writer.WriteElementString("PersonalNumber", _personalNumber);
-                     
+
             // Serialize list of boats.
             new XmlSerializer(typeof(List<Boat>))
                 .Serialize(writer, this._boats);

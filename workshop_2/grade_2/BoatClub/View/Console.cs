@@ -14,9 +14,9 @@ namespace BoatClub.View
             None,
             AddNewMember,
             ShowMemberListMenu,   // show submenu for simple or complete list.
-            ShowMemberInfo,   
+            ShowMemberInfo,
             ShowEditMemberMenu, // show submenu for edit name, personal number or boats.
-            DeleteMember,           
+            DeleteMember,
             Quit
         }
 
@@ -32,7 +32,7 @@ namespace BoatClub.View
         {
             None,
             EditName,
-            EditPernonalNr,
+            EditPersonalNr,
             EditBoats,
             Abort
         }
@@ -42,7 +42,7 @@ namespace BoatClub.View
             None,
             AddBoat,
             EditBoat,
-            DeleteBoat, 
+            DeleteBoat,
             Abort
         }
 
@@ -87,7 +87,7 @@ namespace BoatClub.View
             System.Console.Clear();
             System.Console.WriteLine("---------Edit Member Menu---------");
             System.Console.WriteLine("{0}. Edit Name", (int)EditMemberMenuEvent.EditName);
-            System.Console.WriteLine("{0}. Edit Personal Number", (int)EditMemberMenuEvent.EditPernonalNr);
+            System.Console.WriteLine("{0}. Edit Personal Number", (int)EditMemberMenuEvent.EditPersonalNr);
             System.Console.WriteLine("{0}. Edit Boats", (int)EditMemberMenuEvent.EditBoats);
             System.Console.WriteLine("{0}. Abort", (int)EditMemberMenuEvent.Abort);
         }
@@ -95,8 +95,8 @@ namespace BoatClub.View
         public MainMenuEvent GetMainMenuSelection()
         {
             int option = System.Console.ReadKey().KeyChar - '0';
-                  
-            if(option > (int)MainMenuEvent.None && option <= (int)MainMenuEvent.Quit)
+
+            if (option > (int)MainMenuEvent.None && option <= (int)MainMenuEvent.Quit)
             {
                 return (MainMenuEvent)option;
             }
@@ -156,7 +156,7 @@ namespace BoatClub.View
         }
 
         public String InputMemberName()
-        {           
+        {
             System.Console.Write("Name: ");
             return System.Console.ReadLine();
         }
@@ -167,7 +167,6 @@ namespace BoatClub.View
             return System.Console.ReadLine();
         }
 
-
         public String InputBoatType()
         {
             System.Console.Write("Enter boat type: ");
@@ -177,7 +176,17 @@ namespace BoatClub.View
         public double InputBoatLenght()
         {
             System.Console.Write("Enter boat lenght: ");
-            return double.Parse(System.Console.ReadLine());
+            return double.Parse(System.Console.ReadLine()); //Unhandled
+        }
+        public int InputMemberID()
+        {
+            System.Console.Write("Enter Member ID (0 to abort): ");
+            return int.Parse(System.Console.ReadLine()); //Unhandled
+        }
+        public int InputBoatID()
+        {
+            System.Console.Write("Enter Boat ID: ");
+            return int.Parse(System.Console.ReadLine()); //Unhandled
         }
 
         public void ShowMemberList(IEnumerable<Model.Member> list, Boolean simple)
@@ -197,7 +206,7 @@ namespace BoatClub.View
             }
             else
             {
-                foreach(Model.Member m in list)
+                foreach (Model.Member m in list)
                 {
                     System.Console.WriteLine("---------------------------------");
                     System.Console.WriteLine();
@@ -206,8 +215,8 @@ namespace BoatClub.View
                     System.Console.WriteLine("{0,-16}{1}", "Name:", m.Name);
                     System.Console.WriteLine("{0,-16}{1}", "Personal Nr:", m.PersonalNumber);
                     System.Console.WriteLine("{0,-16}{1}", "Boats:", m.Boats.Count == 0 ? "None" : "");
-  
-                    if(m.Boats.Count > 0)
+
+                    if (m.Boats.Count > 0)
                     {
                         System.Console.WriteLine();
 
@@ -220,12 +229,42 @@ namespace BoatClub.View
                                 b.Length.ToString("0.00"));
                         }
                     }
-                   
+
                     System.Console.WriteLine();
                 }
             }
-              
+
         }
+
+        public void ShowMemberInfo(Model.Member m)
+        {
+
+            System.Console.Clear();
+            System.Console.WriteLine("---------------------------------");
+            System.Console.WriteLine();
+
+            System.Console.WriteLine("{0,-16}{1}", "ID:", m.ID);
+            System.Console.WriteLine("{0,-16}{1}", "Name:", m.Name);
+            System.Console.WriteLine("{0,-16}{1}", "Personal Nr:", m.PersonalNumber);
+            System.Console.WriteLine("{0,-16}{1}", "Boats:", m.Boats.Count == 0 ? "None" : "");
+
+            if (m.Boats.Count > 0)
+            {
+                System.Console.WriteLine();
+
+                System.Console.WriteLine("{0,4}{1,-5} {2,-12} {3,-6}", "", "ID", "Model", "Length");
+                System.Console.WriteLine("    ----- ------------ ------");
+
+                foreach (Model.Boat b in m.Boats)
+                {
+                    System.Console.WriteLine("{0,4}{1,-5} {2,-12} {3}m", "", b.ID, b.Model,
+                        b.Length.ToString("0.00"));
+                }
+            }
+
+            System.Console.WriteLine();
+        }
+
 
         public void Wait()
         {

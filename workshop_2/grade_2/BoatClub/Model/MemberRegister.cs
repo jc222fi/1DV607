@@ -41,7 +41,7 @@ namespace BoatClub.Model
         {
             TextWriter writer = null;
             try
-            {            
+            {
                 XmlSerializer serializer = new XmlSerializer(typeof(List<Member>));
                 writer = new StreamWriter("member_register.xml", false);
                 serializer.Serialize(writer, _memberList);
@@ -58,22 +58,25 @@ namespace BoatClub.Model
             _memberList.Add(newMember);
         }
 
-        public void DeleteMember(int memberId)
+        public void DeleteMember(Member member)
         {
-            _memberList.RemoveAt(memberId - 1);
+            _memberList.Remove(member);
         }
 
 
-        public Member GetMember(int id)
+        public Member GetMember(int memberId)
         {
-            //return Member;
-            return null;
-        }
+            Member m;
+            for (int i = 0; i < _memberList.Count(); i++)
+            {
+                m = _memberList[i];
+                if (m.ID == memberId)
+                {
+                    return m;
+                }
+            }
 
-        public String GetMemberInfo(int memberId)
-        {
             return null;
-            //return memberList.ElementAt(memberId - 1).toString();
         }
 
         public void UpdateMember(int memberId, String name, String pnr)
@@ -86,12 +89,12 @@ namespace BoatClub.Model
 
 
         public int GetNextMemberId()
-        {         
+        {
             int max = 0;
 
-            foreach(Member m in _memberList)
+            foreach (Member m in _memberList)
             {
-                if(m.ID > max)
+                if (m.ID > max)
                 {
                     max = m.ID;
                 }
@@ -100,15 +103,15 @@ namespace BoatClub.Model
             return max + 1;
         }
 
-        public int GetNetBoatIdFor(Member member)
+        public int GetNextBoatIdFor(Member member)
         {
             if (member == null)
                 throw new ArgumentException("member cannot be null");
 
             int max = 0;
-            foreach(Boat b in member.Boats)
+            foreach (Boat b in member.Boats)
             {
-                if(b.ID > max)
+                if (b.ID > max)
                 {
                     max = b.ID;
                 }
