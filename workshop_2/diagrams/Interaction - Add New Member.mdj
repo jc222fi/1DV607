@@ -1,7 +1,7 @@
 {
 	"_type": "Project",
 	"_id": "AAAAAAFF+h6SjaM2Hec=",
-	"name": "Untitled",
+	"name": "BoatClub",
 	"ownedElements": [
 		{
 			"_type": "UMLModel",
@@ -122,8 +122,8 @@
 									"containerExtending": false,
 									"left": 0,
 									"top": 0,
-									"width": 1321,
-									"height": 1249,
+									"width": 1177,
+									"height": 1401,
 									"autoResize": false,
 									"nameLabel": {
 										"$ref": "AAAAAAFQHvSJTNPTp9A="
@@ -2824,13 +2824,13 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 360,
+											"left": 408,
 											"top": 560,
 											"width": 83.814453125,
 											"height": 13,
 											"autoResize": false,
-											"alpha": 0.04790851980769295,
-											"distance": 292.33542378576016,
+											"alpha": 0.05731421144984239,
+											"distance": 244.40130932546168,
 											"hostEdge": {
 												"$ref": "AAAAAAFQHxGAdNj6uVA="
 											},
@@ -5002,6 +5002,7 @@
 					"visibility": "public",
 					"isStatic": false,
 					"isLeaf": false,
+					"type": "",
 					"isReadOnly": false,
 					"isOrdered": false,
 					"isUnique": false,
@@ -5033,32 +5034,6 @@
 			"isAbstract": false,
 			"isFinalSpecialization": false,
 			"isLeaf": false
-		},
-		{
-			"_type": "UMLClass",
-			"_id": "AAAAAAFQHvilStSgeJw=",
-			"_parent": {
-				"$ref": "AAAAAAFF+h6SjaM2Hec="
-			},
-			"name": "Program",
-			"visibility": "public",
-			"isAbstract": false,
-			"isFinalSpecialization": false,
-			"isLeaf": false,
-			"isActive": false
-		},
-		{
-			"_type": "UMLClass",
-			"_id": "AAAAAAFQHvoUWNSukgk=",
-			"_parent": {
-				"$ref": "AAAAAAFF+h6SjaM2Hec="
-			},
-			"name": "Console",
-			"visibility": "public",
-			"isAbstract": false,
-			"isFinalSpecialization": false,
-			"isLeaf": false,
-			"isActive": false
 		},
 		{
 			"_type": "UMLClass",
