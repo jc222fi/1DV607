@@ -47,9 +47,9 @@ namespace BoatClub.Model
 
             set
             {
-                if (value < 0)
+                if (value <= 0)
                 {
-                    throw new ArgumentException("Length cannot be negative.");
+                    throw new ArgumentException("Length must be greater than 0");
                 }                  
                 _length = value;
             }
@@ -63,8 +63,14 @@ namespace BoatClub.Model
             }
 
             set
-            {
-                _model = value;
+            {   
+                if(value == "Sailboat" || value == "Motorsailer" || value == "Kayak/Canoe" || value == "Other")
+                {
+                    _model = value;
+                    
+                }
+                else throw new ArgumentException("Invalid boat type");
+
             }
         }
 

@@ -76,6 +76,7 @@ namespace BoatClub.Model
                 }
             }
 
+
             throw new ArgumentException("No member exists with id " + memberId);
         }
 

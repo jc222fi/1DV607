@@ -58,12 +58,14 @@ namespace BoatClub.View
         public enum Error
         {
             InvalidInput,
-            NoMemberWithId
+            NoMemberWithId,
+            NoBoatWithId,
+            InvalidBoatLenght,
+            InvalidPersonalNumber,
+            InvalidMemberName,
+            InvalidBoatModel
         }
-
-
-
-
+        
         public void ShowMainMenu()
         {
             System.Console.Clear();
@@ -342,8 +344,25 @@ namespace BoatClub.View
                     System.Console.WriteLine("Invalid Input.");
                     break;
                 case Error.NoMemberWithId:
-                    System.Console.WriteLine("No member with id={0} exits.", arg);
+                    System.Console.WriteLine("No member with id={0} exists.", arg);
                     break;
+                case Error.NoBoatWithId:
+                    System.Console.WriteLine("No boat with id={0} exists", arg);
+                    break;
+                case Error.InvalidBoatLenght:
+                    System.Console.WriteLine("Boat length must be greater then 0");
+                    break;
+                case Error.InvalidMemberName:
+                    System.Console.WriteLine("Member name can't be empty");
+                    break;
+                case Error.InvalidPersonalNumber:
+                    System.Console.WriteLine("Invalid format of personal number (YYMMDD-XXXX)");
+                    break;
+                case Error.InvalidBoatModel:
+                    System.Console.WriteLine("Invalid boat model.");
+                    break;
+
+
             }
 
             System.Console.WriteLine();
@@ -384,6 +403,15 @@ namespace BoatClub.View
             System.Console.WriteLine();
             System.Console.WriteLine(" " + title);
             System.Console.WriteLine("-----------------------------");
+        }
+
+        public void ListBoatModels()
+        {
+            System.Console.WriteLine();
+            System.Console.WriteLine("# Sailboat");
+            System.Console.WriteLine("# Motorsailer");
+            System.Console.WriteLine("# Kayak/Canoe");
+            System.Console.WriteLine("# Other");
         }
 
     }
