@@ -14,7 +14,7 @@ namespace BoatClub.Model
     {
         public enum BoatModel
         {
-            Sailboat,
+            Sailboat = 1,
             Motorsailor,
             KayakCanoe,
             Other
@@ -22,7 +22,7 @@ namespace BoatClub.Model
 
         private int _id;
         private double _length;
-        private string _model;
+        private BoatModel _model;
 
 
         public int ID
@@ -55,7 +55,7 @@ namespace BoatClub.Model
             }
         }
 
-        public string Model
+        public BoatModel Model
         {
             get
             {
@@ -63,14 +63,11 @@ namespace BoatClub.Model
             }
 
             set
-            {   
-                if(value == "Sailboat" || value == "Motorsailer" || value == "Kayak/Canoe" || value == "Other")
-                {
-                    _model = value;
-                    
-                }
-                else throw new ArgumentException("Invalid boat type");
-
+            {
+                if (!Enum.IsDefined(typeof(BoatModel), value)) 
+                    throw new ArgumentException("Invalid Boat Model.");
+                
+                _model = value;           
             }
         }
 
@@ -85,7 +82,7 @@ namespace BoatClub.Model
             reader.MoveToContent();
             reader.ReadStartElement();
             _id = reader.ReadElementContentAsInt("Id", reader.NamespaceURI);
-            _model = reader.ReadElementContentAsString("Model", reader.NamespaceURI);
+            _model = (BoatModel)reader.ReadElementContentAsInt("Model", reader.NamespaceURI);
             _length = reader.ReadElementContentAsDouble("Length", reader.NamespaceURI);
             reader.ReadEndElement();
         }
@@ -93,7 +90,7 @@ namespace BoatClub.Model
         public void WriteXml(XmlWriter writer)
         {
             writer.WriteElementString("Id", _id.ToString());
-            writer.WriteElementString("Model", _model);
+            writer.WriteElementString("Model", ((int)_model).ToString());
             writer.WriteElementString("Length", _length
                 .ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
         }
