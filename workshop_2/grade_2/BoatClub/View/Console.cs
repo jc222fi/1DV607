@@ -324,7 +324,7 @@ namespace BoatClub.View
 
                 foreach (Model.Member m in list)
                 {
-                    System.Console.WriteLine("{0,-5} {1,-26} {2,-16} {3}", m.ID, m.Name, m.PersonalNumber, m.Boats.Count);
+                    System.Console.WriteLine("{0,-5} {1,-26} {2,-16} {3}", m.ID, m.Name, m.PersonalNumber, m.GetBoatCount());
                 }
             }
             else
@@ -384,16 +384,16 @@ namespace BoatClub.View
             System.Console.WriteLine("{0,-16}{1}", "ID:", member.ID);
             System.Console.WriteLine("{0,-16}{1}", "Name:", member.Name);
             System.Console.WriteLine("{0,-16}{1}", "Personal Nr:", member.PersonalNumber);
-            System.Console.WriteLine("{0,-16}{1}", "Boats:", member.Boats.Count == 0 ? "None" : "");
+            System.Console.WriteLine("{0,-16}{1}", "Boats:", member.GetBoatCount() == 0 ? "None" : "");
 
-            if (member.Boats.Count > 0)
+            if (member.GetBoatCount() > 0)
             {
                 System.Console.WriteLine();
 
                 System.Console.WriteLine("{0,4}{1,-5} {2,-12} {3,-6}", "", "ID", "Model", "Length");
                 System.Console.WriteLine("    ----- ------------ ------");
 
-                foreach (Model.Boat b in member.Boats)
+                foreach (Model.Boat b in member.GetBoats())
                 {
                     System.Console.WriteLine("{0,4}{1,-5} {2,-12} {3}m", "", b.ID, GetNameForBoatModel(b.Model),
                         b.Length.ToString("0.0"));

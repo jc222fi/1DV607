@@ -29,7 +29,7 @@ namespace BoatClub.Model
                 reader = new StreamReader("member_register.xml");
                 _memberList = (List<Member>)serializer.Deserialize(reader);
             }
-            catch (Exception e) { }
+            catch (Exception) { }
             finally
             {
                 if (reader != null)
@@ -53,9 +53,9 @@ namespace BoatClub.Model
             }
         }
 
-        public void AddMember(Member newMember)
+        public void AddMember(Member member)
         {
-            _memberList.Add(newMember);
+            _memberList.Add(member);
         }
 
         public void DeleteMember(Member member)
@@ -76,15 +76,7 @@ namespace BoatClub.Model
                 }
             }
 
-
             throw new ArgumentException("No member exists with id " + memberId);
-        }
-
-        public void UpdateMember(int memberId, String name, String pnr)
-        {
-            Member memb = _memberList.ElementAt(memberId - 1);
-            //memb.SetName(name);
-            //memb.SetPersonalNumber(pnr);
         }
 
         public int GetNextMemberId()
@@ -108,7 +100,7 @@ namespace BoatClub.Model
                 throw new ArgumentException("member cannot be null");
 
             int max = 0;
-            foreach (Boat b in member.Boats)
+            foreach (Boat b in member.GetBoats())
             {
                 if (b.ID > max)
                 {
@@ -121,7 +113,7 @@ namespace BoatClub.Model
 
         public IEnumerable<Member> GetMemberList()
         {
-            return (IEnumerable<Member>)_memberList.AsEnumerable();
+            return _memberList.AsEnumerable();
         }
 
     }

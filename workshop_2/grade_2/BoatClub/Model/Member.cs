@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Schema;
@@ -17,7 +17,7 @@ namespace BoatClub.Model
         private List<Boat> _boats;
 
         /* Empty contructor needed for serialization */
-        private Member() { }
+        private Member() {}
 
         public Member(int id)
         {
@@ -25,7 +25,7 @@ namespace BoatClub.Model
             _boats = new List<Boat>();
         }
 
-
+    
         public int ID
         {
             get
@@ -40,7 +40,6 @@ namespace BoatClub.Model
             {
                 return _name;
             }
-
             set
             {
                 if (value.Length == 0)
@@ -57,7 +56,6 @@ namespace BoatClub.Model
             {
                 return _personalNumber;
             }
-
             set
             {
                 Match m = Regex.Match(value, @"(\d{2})?(\d{6})-?(\d{4})");
@@ -71,26 +69,29 @@ namespace BoatClub.Model
             }
         }
 
-        public List<Boat> Boats
+
+        public int GetBoatCount()
         {
-            get
-            {
-                return _boats;
-            }
+            return _boats.Count;
+        }
+
+        public IEnumerable<Boat> GetBoats()
+        {
+            return _boats.AsEnumerable();
         }
 
         public void AddBoat(Boat boat)
         {
             _boats.Add(boat);
         }
-
+   
         public void DeleteBoat(int boatId)
         {
             foreach (Boat b in _boats)
             {
                 if (b.ID == boatId)
                 {
-                    Boats.Remove(b);
+                    _boats.Remove(b);
                     return;
                 }
             }

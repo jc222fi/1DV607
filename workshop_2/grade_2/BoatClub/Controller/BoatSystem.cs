@@ -76,7 +76,7 @@ namespace BoatClub.Controller
             {
                 m.Name = view.InputMemberName();
             }
-            catch (ArgumentException e)
+            catch (ArgumentException)
             {
                 view.ShowErrorMessage(View.Console.Error.InvalidMemberName, null);
                 view.Wait();
@@ -174,9 +174,9 @@ namespace BoatClub.Controller
                         HandleEventAddNewBoat(member, view, register);
                         break;
                     case View.Console.ManageBoatsMenuEvent.EditBoat:
-                        if (member.Boats.Count == 1)
+                        if (member.GetBoatCount() == 1)
                         {
-                            boatId = member.Boats[0].ID;
+                            boatId = member.GetBoats().First().ID;
                         }
                         else
                         {
@@ -196,9 +196,9 @@ namespace BoatClub.Controller
                         }
                         break;
                     case View.Console.ManageBoatsMenuEvent.DeleteBoat:                   
-                        if (member.Boats.Count == 1)
+                        if (member.GetBoatCount() == 1)
                         {
-                            boatId = member.Boats[0].ID;
+                            boatId = member.GetBoats().First().ID;
                         }
                         else
                         {
