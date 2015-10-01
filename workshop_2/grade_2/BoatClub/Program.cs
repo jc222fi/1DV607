@@ -14,9 +14,7 @@ namespace BoatClub
             View.Console v = new View.Console();
             Model.MemberRegister mrg = new Model.MemberRegister();
             Controller.BoatSystem bs = new Controller.BoatSystem();
-            while(bs.ShowMainMenu(v, mrg))
-                ;
-       
+            bs.Start(v, mrg);
         }
     }
 }

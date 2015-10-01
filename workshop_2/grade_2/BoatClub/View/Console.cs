@@ -10,50 +10,27 @@ namespace BoatClub.View
     class Console
     {
 
-        public enum MainMenuEvent
+        public enum MenuEvent
         {
-            None,
-            AddNewMember,
-            ShowMemberListMenu,   // show submenu for simple or complete list.
-            ShowMemberInfoMenu,
-            DeleteMember,
-            Exit
+            Invalid,
+            Back,
+            MainMenu,
+                AddNewMember,
+                MemberListMenu,
+                    MemberListSimple,
+                    MemberListComplete,
+                MemberInfoMenu,
+                    EditMemberName,
+                    EditMemberPersonalNumber,           
+                    ManageBoatsMenu,
+                        AddBoat,
+                        EditBoatMenu,
+                            EditBoatModel,
+                            EditBoatLength,
+                        DeleteBoat,
+                DeleteMember,               
+                Exit
         }
-
-        public enum MemberListMenuEvent
-        {
-            None,         
-            SimpleList,
-            CompleteList,
-            Back
-        }
-
-        public enum MemberInfoMenuEvent
-        {
-            None,
-            EditName,
-            EditPersonalNumber,
-            ShowManageBoatsMenu,
-            Back
-        }
-
-        public enum ManageBoatsMenuEvent
-        {
-            None,            
-            AddBoat,
-            EditBoat,
-            DeleteBoat,
-            Back
-        }
-
-        public enum EditBoatMenuEvent
-        {
-            None,
-            EditModel,
-            EditLength,
-            Back
-        }
-
 
         public enum Error
         {
@@ -64,185 +41,145 @@ namespace BoatClub.View
             InvalidMemberName,
             InvalidBoatModel
         }
+
+        private Menu _baseMenu;
+        private Menu _currentMenu;
+
+
+        public Console()
+        {
+            // Build menu tree
+            _baseMenu = new Menu("Menu - BoatClub", 
+                (int)MenuEvent.MainMenu, null);
+
+            _baseMenu.Additem((int)MenuEvent.AddNewMember, "Add Member");
+
+            Menu memberListMenu = new Menu("Menu - Member Lists", 
+                (int)MenuEvent.MemberListMenu, "View Member List");
+            memberListMenu.Additem((int)MenuEvent.MemberListSimple, "Simple List");
+            memberListMenu.Additem((int)MenuEvent.MemberListComplete, "Complete List");
+            memberListMenu.Additem((int)MenuEvent.Back, "...Back");
+            _baseMenu.AddSubMenu(memberListMenu);
+
+            Menu memberInfoMenu = new Menu("Menu - Member Information", 
+                (int)MenuEvent.MemberInfoMenu, "View Member Info");
+            memberInfoMenu.Additem((int)MenuEvent.EditMemberName, "Edit Name");
+            memberInfoMenu.Additem((int)MenuEvent.EditMemberPersonalNumber, "Edit Personal Number");
+            
+            Menu manageBoatsMenu = new Menu("Menu - Manage Boats", 
+                (int)MenuEvent.ManageBoatsMenu, "Manage Boats");
+            manageBoatsMenu.Additem((int)MenuEvent.AddBoat, "Add Boat");
+            
+            Menu editBoatMenu = new Menu("Menu - Edit Boat", 
+                (int)MenuEvent.EditBoatMenu, "Edit Boat");
+            editBoatMenu.Additem((int)MenuEvent.EditBoatModel, "Edit Model");
+            editBoatMenu.Additem((int)MenuEvent.EditBoatLength, "Edit Length");
+            editBoatMenu.Additem((int)MenuEvent.Back, "...Back");
+            manageBoatsMenu.AddSubMenu(editBoatMenu);
+
+            manageBoatsMenu.Additem((int)MenuEvent.DeleteBoat, "Delete Boat");
+            manageBoatsMenu.Additem((int)MenuEvent.Back, "...Back");
+            memberInfoMenu.AddSubMenu(manageBoatsMenu);
+
+            memberInfoMenu.Additem((int)MenuEvent.Back, "...Back");
+            _baseMenu.AddSubMenu(memberInfoMenu);
+
+            _baseMenu.Additem((int)MenuEvent.DeleteMember, "Delete Member");
+            _baseMenu.Additem((int)MenuEvent.Exit, "Quit");
+        }
+
+
+        ///<summary>
+        /// Show menu, supply member if member information
+        /// should be shown above menu.
+        /// </summary>
+        public void ShowMenu(MenuEvent menuId, Model.Member member)
+        {
+            Menu menu = _baseMenu.GetSubMenu((int)menuId);
+
+            // true Menu for menuId exists.
+            if(menu != null)
+            {
+                _currentMenu = menu;
+
+                System.Console.Clear();
+                if (member != null)
+                {
+                    PrintHeader("Member Information");
+                    PrintMemberInfo(member);
+                    System.Console.WriteLine();
+                }
+
+                PrintHeader(menu.Header);
+                foreach (View.MenuItem i in menu.GetItems())
+                {
+                    System.Console.WriteLine("{0}. {1}", menu.GetListIndex(i), i.Title);
+                }
+            }  
+        }
+     
+        public MenuEvent GetMenuSelection()
+        {
+            ConsoleKeyInfo cki = System.Console.ReadKey(true);
+
+            // special case, allow navigate back using backspace.
+            if (cki.Key == ConsoleKey.Backspace)
+                return MenuEvent.Back;
+
+            int selection = (int)MenuEvent.Invalid;           
+            Int32.TryParse(cki.KeyChar.ToString(), out selection);
+
+            if(selection != (int)MenuEvent.Invalid)
+            {
+                if(selection >= _currentMenu.GetListIndex(_currentMenu.GetItems().First())
+                    && selection <= _currentMenu.GetListIndex(_currentMenu.GetItems().Last())) {
+                    return (MenuEvent)_currentMenu.GetItemId(selection);
+                }
+            }
+
+            return MenuEvent.Invalid;
+        }
+
+
+        public void ShowInputInfo(MenuEvent action, Model.Member member)
+        {
+            if(member != null)
+            {
+                System.Console.Clear();
+                PrintHeader("Member Information");
+                PrintMemberInfo(member);
+            }
+            
+            System.Console.WriteLine();
+
+            switch(action)
+            {
+                case MenuEvent.AddNewMember:
+                    PrintHeader("Add new Member");
+                    break;
+                case MenuEvent.MemberInfoMenu:
+                    PrintHeader("View Member Info");
+                    break;
+                case MenuEvent.EditMemberName:
+                    PrintHeader("Edit Member");
+                    break;
+                case MenuEvent.AddBoat:
+                    PrintHeader("Add new Boat");
+                    break;
+                case MenuEvent.EditBoatMenu:
+                case MenuEvent.EditBoatLength:
+                case MenuEvent.EditBoatModel:
+                    PrintHeader("Edit Boat");
+                    break;
+                case MenuEvent.DeleteBoat:
+                    PrintHeader("Delete Boat");
+                    break;
+                case MenuEvent.DeleteMember:
+                    PrintHeader("Delete Member");
+                    break;
+            }
+        }
         
-
-        public void ShowMainMenu()
-        {
-            System.Console.Clear();
-            PrintHeader("Menu - BoatClub");
-            System.Console.WriteLine("{0}. Add Member", (int)MainMenuEvent.AddNewMember);
-            System.Console.WriteLine("{0}. Show Member List", (int)MainMenuEvent.ShowMemberListMenu);
-            System.Console.WriteLine("{0}. Show Member Info", (int)MainMenuEvent.ShowMemberInfoMenu);
-            System.Console.WriteLine("{0}. Delete Member", (int)MainMenuEvent.DeleteMember);
-            System.Console.WriteLine("{0}. Exit", (int)MainMenuEvent.Exit);
-        }
-
-        public void ShowMemberListMenu()
-        {
-            System.Console.Clear();
-            PrintHeader("Menu - Member Lists");       
-            System.Console.WriteLine("{0}. Show Simple Member List", (int)MemberListMenuEvent.SimpleList);
-            System.Console.WriteLine("{0}. Show Complete Member List", (int)MemberListMenuEvent.CompleteList);
-            System.Console.WriteLine("{0}. ...Back", (int)MemberListMenuEvent.Back);
-        }
-
-
-        public void ShowMemberInfoMenu(Model.Member member)
-        {
-            System.Console.Clear();
-            PrintHeader("Member Information");
-            PrintMemberInfo(member);
-            System.Console.WriteLine();
-            PrintHeader("Menu - Edit Member");
-            System.Console.WriteLine("{0}. Edit Name", (int)MemberInfoMenuEvent.EditName);
-            System.Console.WriteLine("{0}. Edit Personal Number", (int)MemberInfoMenuEvent.EditPersonalNumber);
-            System.Console.WriteLine("{0}. Manage Boats", (int)MemberInfoMenuEvent.ShowManageBoatsMenu);
-            System.Console.WriteLine("{0}. ...Back", (int)MemberInfoMenuEvent.Back);
-        }
-
-        public void ShowManageBoatsMenu(Model.Member member)
-        {
-            System.Console.Clear();
-            PrintHeader("Member Information");
-            PrintMemberInfo(member);
-            System.Console.WriteLine();
-            PrintHeader("Menu - Manage Boats");
-            System.Console.WriteLine("{0}. Add Boat", (int)ManageBoatsMenuEvent.AddBoat);
-            System.Console.WriteLine("{0}. Edit Boat", (int)ManageBoatsMenuEvent.EditBoat);
-            System.Console.WriteLine("{0}. Delete Boat", (int)ManageBoatsMenuEvent.DeleteBoat);
-            System.Console.WriteLine("{0}. ...Back", (int)ManageBoatsMenuEvent.Back);
-        }
-
-        public void ShowEditBoatMenu(Model.Member member)
-        {
-            System.Console.Clear();
-            PrintHeader("Member Information");
-            PrintMemberInfo(member);
-            System.Console.WriteLine();
-            PrintHeader("Menu - Edit Boat");           
-            System.Console.WriteLine("{0}. Edit Model", (int)EditBoatMenuEvent.EditModel);
-            System.Console.WriteLine("{0}. Edit Length", (int)EditBoatMenuEvent.EditLength);
-            System.Console.WriteLine("{0}. ...Back", (int)EditBoatMenuEvent.Back);
-        }
-        
-
-        public MainMenuEvent GetMainMenuSelection()
-        {
-            System.Console.WriteLine();
-            System.Console.Write("Selection: ");
-            int option = System.Console.ReadKey().KeyChar - '0';
-
-            if (option > (int)MainMenuEvent.None && option <= (int)MainMenuEvent.Exit)
-            {
-                return (MainMenuEvent)option;
-            }
-            else
-            {
-                return MainMenuEvent.None;
-            }
-        }
-
-        public MemberListMenuEvent GetMemberListMenuSelection()
-        {
-            int option = System.Console.ReadKey().KeyChar - '0';
-
-            if (option > (int)MemberListMenuEvent.None && option <= (int)MemberListMenuEvent.Back)
-            {
-                return (MemberListMenuEvent)option;
-            }
-            else
-            {
-                return MemberListMenuEvent.None;
-            }
-        }
-
-        public MemberInfoMenuEvent GetShowMemberInfoMenuSelection()
-        {
-            int option = System.Console.ReadKey().KeyChar - '0';
-
-            if (option > (int)MemberInfoMenuEvent.None && option <= (int)MemberInfoMenuEvent.Back)
-            {
-                return (MemberInfoMenuEvent)option;
-            }
-            else
-            {
-                return MemberInfoMenuEvent.None;
-            }
-        }
-
-        public ManageBoatsMenuEvent GetManageBoatsMenuSelection()
-        {
-            int option = System.Console.ReadKey().KeyChar - '0';
-
-            if (option > (int)ManageBoatsMenuEvent.None && option <= (int)ManageBoatsMenuEvent.Back)
-            {
-                return (ManageBoatsMenuEvent)option;
-            }
-            else
-            {
-                return ManageBoatsMenuEvent.None;
-            }
-        }
-
-        public EditBoatMenuEvent GetEditBoatMenuSelection()
-        {
-            int option = System.Console.ReadKey().KeyChar - '0';
-
-            if (option > (int)ManageBoatsMenuEvent.None && option <= (int)ManageBoatsMenuEvent.Back)
-            {
-                return (EditBoatMenuEvent)option;
-            }
-            else
-            {
-                return EditBoatMenuEvent.None;
-            }
-        }
-
-
-        public void ShowAddMemberInfo()
-        {
-            System.Console.WriteLine();
-            PrintHeader("Add new Member");
-        }
-
-        public void ShowEditMemberInfo(Model.Member member)
-        {
-            System.Console.Clear();
-            PrintHeader("Member Information");
-            PrintMemberInfo(member);
-            System.Console.WriteLine();
-            PrintHeader("Edit Member");
-        }
-
-        public void ShowAddNewBoatInfo(Model.Member member)
-        {
-            System.Console.Clear();
-            PrintHeader("Member Information");
-            PrintMemberInfo(member);
-            System.Console.WriteLine();
-            PrintHeader("Add new Boat");
-        }
-
-        public void ShowEditBoatInfo(Model.Member member)
-        {
-            System.Console.Clear();
-            PrintHeader("Member Information");
-            PrintMemberInfo(member);
-            System.Console.WriteLine();
-            PrintHeader("Edit Boat");
-        }
-
-        public void ShowDeleteBoatInfo(Model.Member member)
-        {
-            System.Console.Clear();
-            PrintHeader("Member Information");
-            PrintMemberInfo(member);
-            System.Console.WriteLine();
-            PrintHeader("Delete Boat");
-        }
-    
-
-
         public string InputMemberName()
         {
             System.Console.Write("Name: ");
@@ -283,9 +220,7 @@ namespace BoatClub.View
 
         public int InputMemberID()
         {
-            System.Console.WriteLine();
-            System.Console.WriteLine();
-            System.Console.Write("Enter Member ID (0 to abort): ");
+            System.Console.Write("Member ID: ");
 
             int id;
             if (Int32.TryParse(System.Console.ReadLine(), out id))
@@ -340,7 +275,6 @@ namespace BoatClub.View
             }
         }
 
-
         public void ShowErrorMessage(Error e, String arg)
         {
             System.Console.Clear();
@@ -372,11 +306,11 @@ namespace BoatClub.View
         }
 
 
-        public void Wait()
+        private void PrintHeader(String title)
         {
             System.Console.WriteLine();
-            System.Console.WriteLine("Press any key to continue...");
-            System.Console.ReadKey();
+            System.Console.WriteLine(" " + title);
+            System.Console.WriteLine("-----------------------------");
         }
 
         private void PrintMemberInfo(Model.Member member)
@@ -401,11 +335,11 @@ namespace BoatClub.View
             }
         }
 
-        private void PrintHeader(String title)
+        public void Wait()
         {
             System.Console.WriteLine();
-            System.Console.WriteLine(" " + title);
-            System.Console.WriteLine("-----------------------------");
+            System.Console.WriteLine("Press any key to continue...");
+            System.Console.ReadKey();
         }
 
         private string GetNameForBoatModel(Model.Boat.BoatModel model)

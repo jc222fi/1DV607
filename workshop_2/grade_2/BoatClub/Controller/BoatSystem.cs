@@ -1,74 +1,73 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BoatClub.Controller
 {
     class BoatSystem
     {
 
-        public bool ShowMainMenu(View.Console view, Model.MemberRegister register)
+        public void Start(View.Console view, Model.MemberRegister register)
         {
-            view.ShowMainMenu();
-
-            View.Console.MainMenuEvent e = view.GetMainMenuSelection();
-
-            switch (e)
-            {
-                case View.Console.MainMenuEvent.AddNewMember:
-                    HandleEventNewMember(view, register);
-                    break;
-
-                case View.Console.MainMenuEvent.ShowMemberListMenu:
-                    HandleEventShowMemberListMenu(view, register);
-                    break;
-                case View.Console.MainMenuEvent.ShowMemberInfoMenu:
-                    int id = view.InputMemberID();
-                    if (id == 0)
-                        break;
-
-                    try
-                    {
-                        Model.Member m = register.GetMember(id);
-                        HandleEventShowMemberInfoMenu(m, view, register);
-                    }
-                    catch (ArgumentException)
-                    {
-                        view.ShowErrorMessage(View.Console.Error.NoMemberWithId, id.ToString());
-                        view.Wait();
-                    }
-                
-                    break;
-                case View.Console.MainMenuEvent.DeleteMember:
-                    id = view.InputMemberID();
-                    if (id == 0)
-                        break;
-
-                    try
-                    {
-                        register.DeleteMember(register.GetMember(id));
-                        register.Save();
-                    }
-                    catch (ArgumentException)
-                    {
-                        view.ShowErrorMessage(View.Console.Error.NoMemberWithId, id.ToString());
-                        view.Wait();
-                    }
-
-                    break;
-                case View.Console.MainMenuEvent.Exit:
-                    return false;
-            }
-
-            return true;
+            ShowMainMenu(view, register);
         }
 
 
+        private void ShowMainMenu(View.Console view, Model.MemberRegister register)
+        {
+            while (true)
+            {
+                view.ShowMenu(View.Console.MenuEvent.MainMenu, null);
+                switch (view.GetMenuSelection())
+                {
+                    case View.Console.MenuEvent.AddNewMember:
+                        HandleEventNewMember(view, register);
+                        break;
+                    case View.Console.MenuEvent.MemberListMenu:
+                        HandleEventShowMemberListMenu(view, register);
+                        break;
+                    case View.Console.MenuEvent.MemberInfoMenu:
+                        view.ShowInputInfo(View.Console.MenuEvent.MemberInfoMenu, null);
+                        int id = view.InputMemberID();
+                        if (id == 0)
+                            break;
+
+                        try
+                        {
+                            Model.Member m = register.GetMember(id);
+                            HandleEventShowMemberInfoMenu(m, view, register);
+                        }
+                        catch (ArgumentException)
+                        {
+                            view.ShowErrorMessage(View.Console.Error.NoMemberWithId, id.ToString());
+                            view.Wait();
+                        }
+                        break;
+                    case View.Console.MenuEvent.DeleteMember:
+                        view.ShowInputInfo(View.Console.MenuEvent.DeleteMember, null);
+                        id = view.InputMemberID();
+                        if (id == 0)
+                            break;
+
+                        try
+                        {
+                            register.DeleteMember(register.GetMember(id));
+                            register.Save();
+                        }
+                        catch (ArgumentException)
+                        {
+                            view.ShowErrorMessage(View.Console.Error.NoMemberWithId, id.ToString());
+                            view.Wait();
+                        }
+                        break;
+                    case View.Console.MenuEvent.Exit:
+                        return;
+                }
+            }
+        }
+
         public void HandleEventNewMember(View.Console view, Model.MemberRegister register)
         {
-            view.ShowAddMemberInfo();
+            view.ShowInputInfo(View.Console.MenuEvent.AddNewMember, null);
 
             Model.Member m = new Model.Member(register.GetNextMemberId());
 
@@ -98,18 +97,18 @@ namespace BoatClub.Controller
         {
             while (true)
             {
-                view.ShowMemberListMenu();
-                switch (view.GetMemberListMenuSelection())
+                view.ShowMenu(View.Console.MenuEvent.MemberListMenu, null);
+                switch (view.GetMenuSelection())
                 {
-                    case View.Console.MemberListMenuEvent.SimpleList:
+                    case View.Console.MenuEvent.MemberListSimple:
                         view.ShowMemberList(register.GetMemberList(), true);
                         view.Wait();
                         break;
-                    case View.Console.MemberListMenuEvent.CompleteList:
+                    case View.Console.MenuEvent.MemberListComplete:
                         view.ShowMemberList(register.GetMemberList(), false);
                         view.Wait();
                         break;
-                    case View.Console.MemberListMenuEvent.Back:
+                    case View.Console.MenuEvent.Back:
                         // exit menu.
                         return;
                 }
@@ -120,11 +119,11 @@ namespace BoatClub.Controller
         {
             while (true)
             {
-                view.ShowMemberInfoMenu(member);
-                switch (view.GetShowMemberInfoMenuSelection())
+                view.ShowMenu(View.Console.MenuEvent.MemberInfoMenu, member);
+                switch (view.GetMenuSelection())
                 {
-                    case View.Console.MemberInfoMenuEvent.EditName:
-                        view.ShowEditMemberInfo(member);
+                    case View.Console.MenuEvent.EditMemberName:
+                        view.ShowInputInfo(View.Console.MenuEvent.EditMemberName, member);
                         try
                         {
                             member.Name = view.InputMemberName();
@@ -136,8 +135,8 @@ namespace BoatClub.Controller
                             view.Wait();
                         }
                         break;
-                    case View.Console.MemberInfoMenuEvent.EditPersonalNumber:
-                        view.ShowEditMemberInfo(member);
+                    case View.Console.MenuEvent.EditMemberPersonalNumber:
+                        view.ShowInputInfo(View.Console.MenuEvent.EditMemberPersonalNumber, member);
                         try
                         {
                             member.PersonalNumber = view.InputMemberPersonalNumber();
@@ -149,11 +148,11 @@ namespace BoatClub.Controller
                             view.Wait();
                         }
                         break;
-                    case View.Console.MemberInfoMenuEvent.ShowManageBoatsMenu:
+                    case View.Console.MenuEvent.ManageBoatsMenu:
                         HandleEventShowManageBoatsMenu(member, view, register);
                         register.Save();
                         break;
-                    case View.Console.MemberInfoMenuEvent.Back:
+                    case View.Console.MenuEvent.Back:
                         // exit menu.
                         return;
                 }
@@ -165,22 +164,22 @@ namespace BoatClub.Controller
         {
             while (true)
             {
-                view.ShowManageBoatsMenu(member);
+                view.ShowMenu(View.Console.MenuEvent.ManageBoatsMenu, member);
                 int boatId;
 
-                switch (view.GetManageBoatsMenuSelection())
+                switch (view.GetMenuSelection())
                 {
-                    case View.Console.ManageBoatsMenuEvent.AddBoat:
+                    case View.Console.MenuEvent.AddBoat:
                         HandleEventAddNewBoat(member, view, register);
                         break;
-                    case View.Console.ManageBoatsMenuEvent.EditBoat:
+                    case View.Console.MenuEvent.EditBoatMenu:
                         if (member.GetBoatCount() == 1)
                         {
                             boatId = member.GetBoats().First().ID;
                         }
                         else
                         {
-                            view.ShowEditBoatInfo(member);
+                            view.ShowInputInfo(View.Console.MenuEvent.EditBoatMenu, member);
                             boatId = view.InputBoatID();
                         }
 
@@ -195,14 +194,14 @@ namespace BoatClub.Controller
                             view.Wait();
                         }
                         break;
-                    case View.Console.ManageBoatsMenuEvent.DeleteBoat:                   
+                    case View.Console.MenuEvent.DeleteBoat:                   
                         if (member.GetBoatCount() == 1)
                         {
                             boatId = member.GetBoats().First().ID;
                         }
                         else
                         {
-                            view.ShowDeleteBoatInfo(member);
+                            view.ShowInputInfo(View.Console.MenuEvent.DeleteBoat, member);
                             boatId = view.InputBoatID();
                         }
 
@@ -217,7 +216,7 @@ namespace BoatClub.Controller
                             view.Wait();
                         }
                         break;                   
-                    case View.Console.ManageBoatsMenuEvent.Back:
+                    case View.Console.MenuEvent.Back:
                         // exit menu
                         return;
                 }
@@ -226,7 +225,7 @@ namespace BoatClub.Controller
 
         private void HandleEventAddNewBoat(Model.Member member, View.Console view, Model.MemberRegister register)
         {
-            view.ShowAddNewBoatInfo(member);
+            view.ShowInputInfo(View.Console.MenuEvent.AddBoat, member);
             Model.Boat boat = new Model.Boat();
             boat.ID = register.GetNextBoatIdFor(member);
 
@@ -261,11 +260,11 @@ namespace BoatClub.Controller
         {
             while (true)
             {
-                view.ShowEditBoatMenu(member);
-                switch (view.GetEditBoatMenuSelection())
+                view.ShowMenu(View.Console.MenuEvent.EditBoatMenu, member);
+                switch (view.GetMenuSelection())
                 {
-                    case View.Console.EditBoatMenuEvent.EditModel:
-                        view.ShowEditBoatInfo(member);
+                    case View.Console.MenuEvent.EditBoatModel:
+                        view.ShowInputInfo(View.Console.MenuEvent.EditBoatModel, member);
                         try
                         {
                             boat.Model = (Model.Boat.BoatModel)view.InputBoatModel();
@@ -278,8 +277,8 @@ namespace BoatClub.Controller
                             return;
                         }
                         break;
-                    case View.Console.EditBoatMenuEvent.EditLength:
-                        view.ShowEditBoatInfo(member);
+                    case View.Console.MenuEvent.EditBoatLength:
+                        view.ShowInputInfo(View.Console.MenuEvent.EditBoatLength, member);
                         try
                         {
                             boat.Length = view.InputBoatLenght();
@@ -292,7 +291,7 @@ namespace BoatClub.Controller
                             view.Wait();
                             break;
                         }
-                    case View.Console.EditBoatMenuEvent.Back:
+                    case View.Console.MenuEvent.Back:
                         // exit menu
                         return;
                 }
