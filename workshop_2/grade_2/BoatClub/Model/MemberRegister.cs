@@ -46,6 +46,7 @@ namespace BoatClub.Model
                 writer = new StreamWriter("member_register.xml", false);
                 serializer.Serialize(writer, _memberList);
             }
+            catch (Exception) { }
             finally
             {
                 if (writer != null)
